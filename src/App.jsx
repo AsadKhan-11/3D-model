@@ -2,24 +2,9 @@ import { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { useGLTF } from "@react-three/drei";
+import { Model } from "./Model";
 
 import "./App.css";
-
-function Model() {
-  const { scene, materials } = useGLTF("/sunglasses.glb");
-
-  useEffect(() => {
-    if (materials) {
-      materials["Lens"].color.set("yellow");
-      materials["Frame"].color.set("pink");
-
-      console.log(materials);
-    }
-    console.log(materials);
-  }, [materials]);
-
-  return <primitive object={scene} scale={1} />;
-}
 
 function App() {
   return (
@@ -28,18 +13,16 @@ function App() {
         height: "100vh",
         width: "100vw",
         backgroundColor: "grey",
-        overflow: "hidden",
       }}
     >
-      <Canvas>
-        <ambientLight intensity={0.4} />
-        <OrbitControls />
-        <Model />
+      <Canvas camera={{ position: [0, 0, 0.4] }}>
+        <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} />
+        <Model framecolor="blue" />
+        <OrbitControls enablePan={false} />
       </Canvas>
     </div>
   );
 }
-
-useGLTF.preload("/sunglasses.glb");
 
 export default App;
